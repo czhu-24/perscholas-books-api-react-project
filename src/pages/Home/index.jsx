@@ -5,13 +5,14 @@ import axios from 'axios'
 
 const Home = () => {
 
+
+
   const [booksLists, setBooksLists] = useState([]);
 
   const isbn = "1649374046";
 
   const nyKey = "";
 
-  const list = "hardcover-fiction";
   const currentDate = new Date();
   // date in YYYY-DD-MM format, so pad 0 to date & month if necessary
   const date = `${currentDate.getFullYear()}-${currentDate.getDate().toString().padStart(2, '0')}-${(currentDate.getMonth() + 1).toString().padStart(2, '0')}`;
