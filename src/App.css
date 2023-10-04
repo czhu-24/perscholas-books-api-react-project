@@ -5,6 +5,10 @@ nav {
   background-color: #333;
   color: #fff;
   padding: 10px;
+  position: fixed;
+  width: 100vw;
+  top: 0;
+  left: 0;
 }
 
 .dropdown {
@@ -41,6 +45,10 @@ footer {
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100vw;
 }
 
 .book-flex {

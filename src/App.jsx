@@ -6,17 +6,18 @@ import Footer from './components/Footer';
 import { Route, Routes } from 'react-router-dom';
 import HeatMap from './pages/HeatMap';
 import { useDispatch, useSelector } from 'react-redux';
+import {enteredKey} from './redux/slices/hasKeySlice'
 
 function App() {
 
   // getting state from store
-  const hasKey2 = useSelector((store) => store.hasKey);
+  const hasKey = useSelector((store) => store.hasKey);
 
   const dispatch = useDispatch();
 
   // TODO: need to make hasKey a global state
   // yeah, put that into the store. *sigh*
-  const [hasKey, setHasKey] = useState(false);
+  //const [hasKey, setHasKey] = useState(false);
   const [keyInput, setKeyInput] = useState("");
 
   function handleKeySubmission() {
@@ -28,12 +29,12 @@ function App() {
 
   return (
     <>
-      {hasKey2 ? "" : <>
+      {hasKey ? "" : <>
         <h1> Welcome to this site! please enter your NYTimes API Key below </h1>
         <input value={keyInput} onChange={(e) => setKeyInput(e.target.value)} type="text" />
         <button onClick={handleKeySubmission}>Submit</button>
       </>}
-      {hasKey2 ? <><Navbar />
+      {hasKey ? <><Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/heatmap" element={<HeatMap />} />

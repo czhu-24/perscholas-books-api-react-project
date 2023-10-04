@@ -11,7 +11,7 @@ const Home = () => {
 
   const isbn = "1649374046";
 
-  const nyKey = "";
+  const nyKey = "gNiB3j1UoXh6bjDSRLuVQhAWbytpAwbu";
 
   const currentDate = new Date();
   // date in YYYY-DD-MM format, so pad 0 to date & month if necessary

@@ -1,4 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
+import hasKeyReducer from "./slices/hasKeySlice";
+
 
 
 const store = configureStore({

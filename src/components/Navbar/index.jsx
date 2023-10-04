@@ -10,7 +10,7 @@ const Navbar = () => {
 				<span className="data-visualizations">Data Visualizations</span>
 				<div className="dropdown-content">
 					<Link to="/">Line Chart</Link>
-					<Link to="/">Heat Map</Link>
+					<Link to="/heatmap">Heat Map</Link>
 					<Link to="/">Word Cloud</Link>
 				</div>
 			</div>
