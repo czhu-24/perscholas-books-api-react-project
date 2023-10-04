@@ -2,6 +2,7 @@ nav {
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
+  align-items: center;
   background-color: #333;
   color: #fff;
   padding: 10px;
@@ -9,6 +10,8 @@ nav {
   width: 100vw;
   top: 0;
   left: 0;
+  right: 0;
+  height: 2em;
 }
 
 .dropdown {
@@ -48,9 +51,23 @@ footer {
   position: fixed;
   bottom: 0;
   left: 0;
+  right: 0;
   width: 100vw;
 }
 
 .book-flex {
   display: flex;
+}
+
+.main-page {
+  margin-top: 3em;
+  margin-bottom: 3em;
+}
+
+img {
+  width: 25vw;
+}
+
+h1 {
+  text-align: center;
 }

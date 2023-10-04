@@ -2,7 +2,7 @@ import React from 'react'
 
 const HeatMap = () => {
 	return (
-		<div>HeatMap</div>
+		<h1>HeatMap</h1>
 	)
 }
 

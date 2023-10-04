@@ -5,8 +5,15 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import { Route, Routes } from 'react-router-dom';
 import HeatMap from './pages/HeatMap';
+import LineChart from './pages/LineChart';
+import WordCloud from './pages/WordCloud';
 import { useDispatch, useSelector } from 'react-redux';
-import {enteredKey} from './redux/slices/hasKeySlice'
+import { enteredKey, enteredWrongKey } from './redux/slices/hasKeySlice';
+import { setKey } from './redux/slices/keySlice';
+import List from './pages/List';
+import Book from './pages/Book';
+import axios from 'axios';
+
 
 function App() {
 
@@ -14,34 +21,41 @@ function App() {
   const hasKey = useSelector((store) => store.hasKey);
 
   const dispatch = useDispatch();
-
-  // TODO: need to make hasKey a global state
-  // yeah, put that into the store. *sigh*
-  //const [hasKey, setHasKey] = useState(false);
   const [keyInput, setKeyInput] = useState("");
 
   function handleKeySubmission() {
-    // TODO: perform an API key with the key and if the response comes back with no errors, THEN, store it in localStorage & set hasKey to  true
-    if (keyInput === "key") {
-      dispatch(enteredKey());
-    }
+    axios.get(`https://api.nytimes.com/svc/books/v3/lists/overview.json?api-key=${keyInput}`)
+      .then((response) => {
+        if (response.status === 200) {
+          dispatch(enteredKey());
+          dispatch(setKey(keyInput));
+        }
+      }
+      ).catch((error) => {
+        console.log("error", error);
+        dispatch(enteredWrongKey());
+      });
   }
 
   return (
-    <>
+    <div className="main-page">
       {hasKey ? "" : <>
-        <h1> Welcome to this site! please enter your NYTimes API Key below </h1>
+        <h1> Welcome to this site! Please enter your NYTimes API Key below</h1>
         <input value={keyInput} onChange={(e) => setKeyInput(e.target.value)} type="text" />
         <button onClick={handleKeySubmission}>Submit</button>
       </>}
       {hasKey ? <><Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/linechart" element={<LineChart />} />
           <Route path="/heatmap" element={<HeatMap />} />
+          <Route path="/wordcloud" element={<WordCloud />} />
+          <Route path="/list/:listName" element={<List />} />
+          <Route path="/book/:bookName" element={<Book />} />
         </Routes>
         <Footer /></>
         : ""}
-    </>
+    </div>
   )
 }
 

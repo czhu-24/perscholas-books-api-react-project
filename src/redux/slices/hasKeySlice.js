@@ -5,10 +5,10 @@ const hasKeySlice = createSlice({
 	name: "hasKey",
 	initialState: false,
 	reducers: {
-		enteredKey: () => true
+		enteredKey: () => true,
 	}
 });
 
-export const {enteredKey} = hasKeySlice.actions;
+export const {enteredKey, enteredWrongKey} = hasKeySlice.actions;
 
 export default hasKeySlice.reducer;
