@@ -1,16 +1,21 @@
 import { createSlice} from "@reduxjs/toolkit";
-import { generateFormattedDateDDMM } from "../../utils/dateUtils";
+
+const rawDate = new Date();
 
 const currentDateSlice = createSlice({
 	name: "currentDate",
 	initialState: {
-		rawDate: new Date().toISOString(),
-		formattedDate: generateFormattedDateDDMM(new Date())},
+		year: rawDate.getFullYear(),
+		month: rawDate.getMonth() + 1, // month is zero-indexed
+		date: rawDate.getDate()
+	},
 	reducers: {
 	  setCurrentDate: (state, action) => {
+		// YYYY-MM-DD
 		return {
-			rawDate: action.payload, 
-			formattedDate: generateFormattedDateDDMM(action.payload)
+			year: action.payload.split('-')[0],
+			month: action.payload.split('-')[1],
+			date: action.payload.split('-')[2]
 		};
 	  },
 	},

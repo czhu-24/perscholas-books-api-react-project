@@ -1,30 +1,49 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import './index.css'
-import { generateFormattedDateMMDD } from '../../utils/dateUtils';
+import { generateFormattedDateFromObject, generateFormattedDateFromRawDate, generateFormattedDateWeekAway } from '../../utils/dateUtils';
 import { setCurrentDate } from '../../redux/slices/currentDateSlice';
 
-const DatePicker = () => {
+const DatePicker = ({ date }) => {
 	const dispatch = useDispatch();
 
-	const rawDate = new Date(useSelector((store) => store.currentDate.rawDate));
+
 
 	// Initialize state to store the formatted date string
-	const formattedDate = generateFormattedDateMMDD(rawDate);
+	const [displayedDate, setDisplayedDate] = useState(generateFormattedDateFromObject(date));
 
-	const [year, month, day] = formattedDate.split("-");
+	const handleDateChange = (e) => {
+		// Update the local state
+		setDisplayedDate(e.target.value);
+
+		// Dispatch the action to update the Redux store
+		// we're separating out the displayed date & the value stored in redux
+		// because we don't want infinite renders
+		dispatch(setCurrentDate(e.target.value));
+	}
+
+	const goOneWeekAway = (boolean) => {
+		// bool is true if you're going forward a week
+		console.log(displayedDate, boolean);
+		const newDate = generateFormattedDateWeekAway(displayedDate, boolean);
+
+		setDisplayedDate(newDate);
+		dispatch(setCurrentDate(newDate));
+	}
 
 	return (
 		<div className="dateFlex">
-			<button>&lt;-</button>
+			<button onClick={() => goOneWeekAway(false)}>&lt;-</button>
 			<input
 				type="date"
 				name="date"
 				id="date"
-				value={formattedDate}
-				onChange={(e) => dispatch(setCurrentDate(new Date(year, month - 1, day)))}
+				value={displayedDate}
+				onChange={(e) => handleDateChange(e)}
+				min="2010-01-01"
+				max={generateFormattedDateFromRawDate(new Date())}
 			/>
-			<button>-&gt;</button>
+			<button onClick={() => goOneWeekAway(true)}>-&gt;</button>
 
 		</div>
 	)
