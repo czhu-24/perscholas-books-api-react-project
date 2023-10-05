@@ -1,0 +1,19 @@
+.dateFlex {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	width: 20vw;
+	justify-content: flex-end;
+	position: fixed;
+	top: 20vh;
+	right: 0;
+}
+
+.dateFlex>div {
+	font-size: 32px;
+}
+
+.dateFlex>button {
+	background-color: black;
+	color: white;
+}

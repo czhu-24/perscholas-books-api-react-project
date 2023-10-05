@@ -18,7 +18,9 @@ import axios from 'axios';
 function App() {
 
   // getting state from store
-  const hasKey = useSelector((store) => store.hasKey);
+  //const hasKey = useSelector((store) => store.hasKey);
+
+  const hasKey = true;
 
   const dispatch = useDispatch();
   const [keyInput, setKeyInput] = useState("");

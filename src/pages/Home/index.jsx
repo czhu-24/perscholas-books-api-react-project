@@ -6,18 +6,25 @@ import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { addCurrentLists } from '../../redux/slices/currentListsSlice'
 import { setCurrentDate } from '../../redux/slices/currentDateSlice'
+import { getFormattedMonth } from '../../utils/dateUtils'
+import DatePicker from '../../components/DatePicker'
 
 const Home = () => {
   const dispatch = useDispatch();
 
-  const nyKey = useSelector((store) => store.key.key);
+  const nyKey = "gNiB3j1UoXh6bjDSRLuVQhAWbytpAwbu";
 
-  const currentDate = new Date();
-  // date in YYYY-DD-MM format, so pad 0 to date & month if necessary
-  const date = `${currentDate.getFullYear()}-${currentDate.getDate().toString().padStart(2, '0')}-${(currentDate.getMonth() + 1).toString().padStart(2, '0')}`;
+  //const nyKey = useSelector((store) => store.key.key);
 
-  dispatch(setCurrentDate(date));
-  const monthName = currentDate.toLocaleString('default', { month: 'long' });
+  const date = useSelector((store) => store.currentDate.formattedDate);
+  // parse the ISO string back into a Date object
+  const rawDate = new Date(useSelector((store) => store.currentDate.rawDate));
+
+  console.log(rawDate);
+
+  const monthName = getFormattedMonth(rawDate);
+
+  //const monthName = currentDate.toLocaleString('default', { month: 'long' });
 
   //const displayedLists = ["hardcover-fiction", "hardcover-nonfiction", "combined-print-and-e-book-fiction", "combined-print-and-e-book-nonfiction"];
 
@@ -26,7 +33,6 @@ const Home = () => {
 
     axios.get(nyTimesURL).then((response) => {
       //console.log("NYTimes data is:", response);
-      setBooksLists((response.data.results.lists));
 
       dispatch(addCurrentLists(response.data.results.lists));
     }).catch((error) => {
@@ -41,9 +47,10 @@ const Home = () => {
 
   return (
     <>
+      <DatePicker />
       {currentLists ? currentLists.map((list) => (
         <div key={uuidv4()}>
-          <h1><Link to={`/list/${list.list_name}`}>{list.list_name} for {`${monthName}, ${currentDate.getDate()}, ${currentDate.getFullYear()}`}</Link></h1>
+          <h1><Link to={`/list/${list.list_name}`}>{list.list_name} for {`${monthName}, ${rawDate.getDate()}, ${rawDate.getFullYear()}`}</Link></h1>
           {list.books.map((book) => (
             <div className="book-flex" key={uuidv4()}>
               <h2>Rank: {book.rank}</h2>
