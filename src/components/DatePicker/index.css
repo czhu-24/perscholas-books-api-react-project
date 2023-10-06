@@ -6,7 +6,7 @@
 	justify-content: flex-end;
 	position: fixed;
 	top: 20vh;
-	right: 0;
+	left: 0;
 }
 
 .dateFlex>div {

@@ -4,34 +4,33 @@ import './index.css'
 import { generateFormattedDateFromObject, generateFormattedDateFromRawDate, generateFormattedDateWeekAway } from '../../utils/dateUtils';
 import { setCurrentDate } from '../../redux/slices/currentDateSlice';
 
-const DatePicker = ({ date, requestCounter}) => {
+const DatePicker = ({ requestCounter }) => {
 	const dispatch = useDispatch();
-
-
-
 	// Initialize state to store the formatted date string
+
+	const date = useSelector((store) => store.currentDate);
 	const [displayedDate, setDisplayedDate] = useState(generateFormattedDateFromObject(date));
 
 	const handleDateChange = (e) => {
-		if(requestCounter >= 4){
+		if (requestCounter > 5) {
 			return;
 		}
 		// Update the local state
 		setDisplayedDate(e.target.value);
 
 		// Dispatch the action to update the Redux store
-		// we're separating out the displayed date & the value stored in redux
+		// we're separating out the displayed date & the value in the store
 		// because we don't want infinite renders
 		dispatch(setCurrentDate(e.target.value));
 	}
 
-	const goOneWeekAway = (boolean) => {
-		if(requestCounter >= 4){
+	const goOneWeekAway = (isForward) => {
+		if (requestCounter > 5) {
 			return;
 		}
 		// bool is true if you're going forward a week
-		console.log(displayedDate, boolean);
-		const newDate = generateFormattedDateWeekAway(displayedDate, boolean);
+		console.log(displayedDate, isForward);
+		const newDate = generateFormattedDateWeekAway(displayedDate, isForward);
 
 		setDisplayedDate(newDate);
 		dispatch(setCurrentDate(newDate));

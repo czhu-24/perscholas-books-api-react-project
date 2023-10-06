@@ -41,54 +41,71 @@ const Home = () => {
       .finally(() => {
         setLoading(false);
       })
+  }
+
+  // throttled version of fetchNYTimesData using setTimeout, every minute, can do a max of 5 requests
+  const throttledFetchNYTimesData = () => {
+    console.log(`counter is ${requestCounter}`);
+    if (requestCounter <= 5) {
+      setRequestCounter(requestCounter + 1);
+      fetchNYTimesData();
+    } else if (requestCounter > 5) {
+      console.log("too many requests!");
+      setRequestCounter(setTimeout(() => {
+
+        setRequestCounter(0);
+        localStorage.setItem('requestCounter', '0');
+      }, 60000)); // Reset after 1 minute
     }
-    
-    // throttled version of fetchNYTimesData using setTimeout, every 12 secs can do a new fetch
-    let throttledFetchNYTimesData = () => {
-      console.log(`counter is ${requestCounter}`);
-  
-      if (requestCounter < 4) {
-        setRequestCounter(requestCounter + 1);
-        fetchNYTimesData();
-      } else if (requestCounter >= 4) {
-        console.log("too many requests!");
-        setRequestCounter(setTimeout(() => {
-          setRequestCounter(0);
-          localStorage.setItem('requestCounter', '0');
-        }, 60000)); // Reset after 1 minute
-      }
-    };
+
+
+  };
+
+  // this should force me to do an API call every 12 secs...
+  const throttledFetchNYTimesData2 = () => {
+    const intervalId = setInterval(() => {
+      fetchNYTimesData();
+    }, 12000);
+
+    return intervalId;
+  }
 
   useEffect(() => {
-    throttledFetchNYTimesData();
-  }
-    , [date]);
+    // Start the throttled API call when the component mounts
+    //const intervalId = throttledFetchNYTimesData2();
+
+    // Clear the interval when the component unmounts or when the date changes
+    //return () => clearInterval(intervalId);
+
+    fetchNYTimesData();
+  }, [date]);
+
 
   const currentLists = useSelector((store) => store.currentLists);
 
   return (
     <>
-    <DatePicker date={date} requestCounter={requestCounter}/>
-    {loading ? (
-      <div>Loading...</div>
-    )  :
-     (currentLists.map((list) => (
-        
-        <div key={list.list_id}>
-          <h1><Link to={`/list/${list.list_id}`}>{list.list_name}</Link> for {`${generateMonthName(date.month)}, ${date.date}, ${date.year}`}</h1>
-          {list.books.map((book) => (
-            <div className="book-flex" key={book.title}>
-              <h2>Rank: {book.rank}</h2>
-              <img src={book.book_image} alt="book covers" />
-              <h2><Link to={`/book/${book.primary_isbn13}`}>{book.title}</Link></h2>
-              <h3>{book.author}</h3>
-              <h3>{book.description}</h3>
-            </div>
-          ))}
-        </div>
-      ))
-    )}
-  </>
+      <DatePicker requestCounter={requestCounter} />
+      {loading ? (
+        <div>Loading...</div>
+      ) :
+        (currentLists.map((list) => (
+
+          <div key={list.list_id}>
+            <h1><Link to={`/list/${list.list_id}`}>{list.list_name}</Link> for {`${generateMonthName(date.month)}, ${date.date}, ${date.year}`}</h1>
+            {list.books.map((book) => (
+              <div className="book-flex" key={book.title}>
+                <h2>Rank: {book.rank}</h2>
+                <img src={book.book_image} alt="book covers" />
+                <h2><Link to={`/book/${book.primary_isbn13}`}>{book.title}</Link></h2>
+                <h3>{book.author}</h3>
+                <h3>{book.description}</h3>
+              </div>
+            ))}
+          </div>
+        ))
+        )}
+    </>
   )
 }
 
