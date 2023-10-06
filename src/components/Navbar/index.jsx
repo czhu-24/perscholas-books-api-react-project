@@ -1,8 +1,18 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import './index.css'
+import { useDispatch } from 'react-redux'
+import { setSearch } from '../../redux/slices/searchSlice'
 
 const Navbar = () => {
+	const dispatch = useDispatch();
+
+	const [searchString, setSearchString] = useState("");
+
+	const handleSearch = () => {
+		dispatch(setSearch(searchString));
+		setSearchString("");
+	}
 
 	return (
 		<nav>
@@ -11,8 +21,8 @@ const Navbar = () => {
 			<div className="searchBar">
 				<div>help</div>
 				<button>Advanced search</button>
-				<input type="text" name="search" id="search" default="Search something!" />
-				<button><Link to="/searchresults">Search</Link></button>
+				<input value={searchString} onChange={(e) => setSearchString(e.target.value)} type="text" name="search" id="search" default="Search something!" />
+				<button onClick={handleSearch}><Link to="/searchresults">Search</Link></button>
 			</div>
 			<div className="dropdown">
 				<span className="data-visualizations">Data Visualizations</span>

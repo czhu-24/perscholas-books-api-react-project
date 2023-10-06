@@ -10,16 +10,17 @@ const currentDateSlice = createSlice({
 		date: rawDate.getDate()
 	},
 	reducers: {
-	  setCurrentDate: (state, action) => {
+		setCurrentDate: (state, action) => {
 		// YYYY-MM-DD
 		return {
 			year: action.payload.split('-')[0],
 			month: action.payload.split('-')[1],
 			date: action.payload.split('-')[2]
-		};
-	  },
-	},
-  });
+			};
+		}
+	}
+});
+  
 
 export const {setCurrentDate} = currentDateSlice.actions;
 
