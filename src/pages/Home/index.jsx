@@ -11,8 +11,6 @@ import { Link } from 'react-router-dom'
 const Home = () => {
   const dispatch = useDispatch();
 
-  const nyKey = "gNiB3j1UoXh6bjDSRLuVQhAWbytpAwbu";
-
   //const nyKey = useSelector((store) => store.key.key);
 
   const [loading, setLoading] = useState(false);
@@ -23,25 +21,8 @@ const Home = () => {
 
   const date = useSelector((store) => store.currentDate);
 
-  const formattedDate = generateFormattedDateFromObject(date);
+
   //const displayedLists = ["hardcover-fiction", "hardcover-nonfiction", "combined-print-and-e-book-fiction", "combined-print-and-e-book-nonfiction"];
-
-  const fetchNYTimesData = () => {
-    setLoading(true);
-
-    const nyTimesURL = `https://api.nytimes.com/svc/books/v3/lists/full-overview.json?published_date=${formattedDate}&api-key=${nyKey}`;
-
-    axios.get(nyTimesURL) // returns a Promise
-      .then((response) => {  // happens when promise is resolved
-        dispatch(setCurrentLists(response.data.results.lists));
-      })
-      .catch((err) => {
-        console.log("Error fetching data from NYTimes", err);
-      })
-      .finally(() => {
-        setLoading(false);
-      })
-  }
 
   // throttled version of fetchNYTimesData using setTimeout, every minute, can do a max of 5 requests
   const throttledFetchNYTimesData = () => {
@@ -69,16 +50,6 @@ const Home = () => {
 
     return intervalId;
   }
-
-  useEffect(() => {
-    // Start the throttled API call when the component mounts
-    //const intervalId = throttledFetchNYTimesData2();
-
-    // Clear the interval when the component unmounts or when the date changes
-    //return () => clearInterval(intervalId);
-
-    fetchNYTimesData();
-  }, [date]);
 
 
   const currentLists = useSelector((store) => store.currentLists);

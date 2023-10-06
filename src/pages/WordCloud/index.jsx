@@ -12,6 +12,7 @@ const WordCloud = () => {
 	// on hover, show the count for that word
 
 	const [isLoading, setIsLoading] = useState(true);
+	const [dataArray, setDataArray] = useState([]);
 
 	const date = useSelector((store) => store.currentDate);
 
@@ -20,51 +21,69 @@ const WordCloud = () => {
 	const currentLists = useSelector((store) => store.currentLists);
 
 	let dataObject = {};
-	let dataArray = [];
+
+	const fillerWords = ["the", "and", "of", "a", "to", "in", "on", "an", "with", "i", "you", "me", "us"];
+
+	const data = [
+		{ text: 'Hey', value: 1000 },
+		{ text: 'lol', value: 200 },
+		{ text: 'first impression', value: 800 },
+		{ text: 'very cool', value: 1000000 },
+		{ text: 'duck', value: 10 },
+	];
 
 	useEffect(() => {
-		const fillerWords = ["the", "and", "of", "a", "to", "in", "on", "an", "with", "i", "you", "me", "us"];
-
 		currentLists.forEach((list) =>
 			list.books.forEach((book) => { // Remove .title from here
 				book.title.split(" ").forEach((word) => {
+					// keep only alphabetic characters
+					const filteredWord = word.replace(/[^a-zA-Z]/g, '');
 					if (!fillerWords.includes(word.toLowerCase()) && word in dataObject) {
-						dataObject[word]++;
+						dataObject[filteredWord]++;
 					} else if (!fillerWords.includes(word.toLowerCase()) && !(word in dataObject)) {
-						dataObject[word] = 1;
+						dataObject[filteredWord] = 1;
 					}
 				});
 			})
 		);
 
 		//console.log(JSON.stringify(dataObject));
+		let tempArray = [];
+
+		console.log(dataObject);
 
 		// now turn obj like {word1: val1, word2: val2...} into [{text: word1, value: val1}, {value: word2, value: val2}]
 		for (let key in dataObject) {
-			dataArray.push({
+			console.log(dataObject[key] * 50);
+			tempArray.push({
 				text: key,
 				value: dataObject[key] * 50
 			})
 		}
 
+
 		// need to sort by value inside every object AND THEN, take only the top 25 words
 
-		dataArray.sort((a, b) => b.value - a.value);
+		tempArray.sort((a, b) => b.value - a.value);
+		console.log({ tempArray });
+		tempArray = tempArray.slice(0, 5);
 
-		dataArray = dataArray.slice(0, 50);
+		setDataArray(tempArray);
+
 		setIsLoading(false);
-	}, [date, currentLists]);
+	}, [date, currentLists])
 
-	console.log(dataArray);
 
+
+	console.log("FINAL DATA ARRAY", dataArray);
 	return (
 		<>
 			<h1>WordCloud for Titles for All Lists for {`${generateMonthName(date.month)}, ${date.date}, ${date.year}`}</h1>
 			<DatePicker requestCounter={requestCounter} />
-			{!isLoading ? (
-				<ReactWordCloud data={dataArray} padding={0} width={500} height={500} />
+			{isLoading ? (
+				<h1>Loading... </h1>
 			) : (
-				<p>Loading...</p>
+				<ReactWordCloud data={dataArray} />
 			)}
 		</>
 	)
