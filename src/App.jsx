@@ -53,8 +53,8 @@ function App() {
           <Route path="/linechart" element={<LineChart />} />
           <Route path="/heatmap" element={<HeatMap />} />
           <Route path="/wordcloud" element={<WordCloud />} />
-          <Route path="/list/:listName" element={<List />} />
-          <Route path="/book/:bookName" element={<Book />} />
+          <Route path="/list/:listId" element={<List />} />
+          <Route path="/book/:bookIsbn" element={<Book />} />
           <Route path="/searchresults" element={<SearchResults />} />
         </Routes>
         <Footer /></>

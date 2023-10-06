@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { setCurrentLists } from '../../redux/slices/currentListsSlice'
 import { generateFormattedDateFromObject, generateMonthName } from '../../utils/dateUtils'
 import DatePicker from '../../components/DatePicker'
+import { Link } from 'react-router-dom'
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -72,13 +73,14 @@ const Home = () => {
       <div>Loading...</div>
     )  :
      (currentLists.map((list) => (
-        <div key={list.list_name}>
-          <h1>{list.list_name} for {`${generateMonthName(date.month)}, ${date.date}, ${date.year}`}</h1>
+        
+        <div key={list.list_id}>
+          <h1><Link to={`/list/${list.list_id}`}>{list.list_name}</Link> for {`${generateMonthName(date.month)}, ${date.date}, ${date.year}`}</h1>
           {list.books.map((book) => (
             <div className="book-flex" key={book.title}>
               <h2>Rank: {book.rank}</h2>
               <img src={book.book_image} alt="book covers" />
-              <h2>{book.title}</h2>
+              <h2><Link to={`/book/${book.primary_isbn13}`}>{book.title}</Link></h2>
               <h3>{book.author}</h3>
               <h3>{book.description}</h3>
             </div>
