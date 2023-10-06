@@ -4,7 +4,7 @@ import './index.css'
 import { generateFormattedDateFromObject, generateFormattedDateFromRawDate, generateFormattedDateWeekAway } from '../../utils/dateUtils';
 import { setCurrentDate } from '../../redux/slices/currentDateSlice';
 
-const DatePicker = ({ date }) => {
+const DatePicker = ({ date, requestCounter}) => {
 	const dispatch = useDispatch();
 
 
@@ -13,6 +13,9 @@ const DatePicker = ({ date }) => {
 	const [displayedDate, setDisplayedDate] = useState(generateFormattedDateFromObject(date));
 
 	const handleDateChange = (e) => {
+		if(requestCounter >= 4){
+			return;
+		}
 		// Update the local state
 		setDisplayedDate(e.target.value);
 
@@ -23,6 +26,9 @@ const DatePicker = ({ date }) => {
 	}
 
 	const goOneWeekAway = (boolean) => {
+		if(requestCounter >= 4){
+			return;
+		}
 		// bool is true if you're going forward a week
 		console.log(displayedDate, boolean);
 		const newDate = generateFormattedDateWeekAway(displayedDate, boolean);

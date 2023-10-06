@@ -6,12 +6,12 @@ const currentListsSlice = createSlice({
 	name: "currentLists",
 	initialState: [],
 	reducers: {
-		addCurrentLists: (state, action) => {
-			state.push(...action.payload);
+		setCurrentLists: (state, action) => {
+			return [...action.payload];
 		}
 	}
 });
 
-export const {addCurrentLists} = currentListsSlice.actions;
+export const {setCurrentLists} = currentListsSlice.actions;
 
 export default currentListsSlice.reducer;

@@ -7,10 +7,12 @@ const Navbar = () => {
 	return (
 		<nav>
 			<Link to="/">Home</Link>
+			
 			<div className="searchBar">
-				<input type="text" name="search" id="search" default="Search something!" />
-				<button>Search</button>
 				<div>help</div>
+				<button>Advanced search</button>
+				<input type="text" name="search" id="search" default="Search something!" />
+				<button><Link to="/searchresults">Search</Link></button>
 			</div>
 			<div className="dropdown">
 				<span className="data-visualizations">Data Visualizations</span>

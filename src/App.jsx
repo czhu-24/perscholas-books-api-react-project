@@ -13,6 +13,7 @@ import { setKey } from './redux/slices/keySlice';
 import List from './pages/List';
 import Book from './pages/Book';
 import axios from 'axios';
+import SearchResults from './pages/SearchResults';
 
 
 function App() {
@@ -54,6 +55,7 @@ function App() {
           <Route path="/wordcloud" element={<WordCloud />} />
           <Route path="/list/:listName" element={<List />} />
           <Route path="/book/:bookName" element={<Book />} />
+          <Route path="/searchresults" element={<SearchResults />} />
         </Routes>
         <Footer /></>
         : ""}
