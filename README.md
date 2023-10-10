@@ -1,8 +1,30 @@
-# React + Vite
+# Mod 2 Project
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Introduction**
+A project to display NYTimes best sellers' information.
 
-Currently, two official plugins are available:
+![Home](src/assets/screenshot1.png)
+![Word map](src/assets/screenshot2.png)
+![Search](src/assets/screenshot3.png)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+**Technologies Used**
+* React
+* NYTimes Book API
+
+**Getting Started**
+* Either visit this link: https://mod2.onrender.com/
+* Or, clone the repo here https://github.com/czhu-24/perscholas-books-api-react-project and then start a development server for the react app (npm run dev).
+
+**Unsolved Problems**
+* Search via book title & author
+* Discrepancy between date displayed in UI & date stored in the store
+* More graceful throttling of API calls
+* Caching of lists so site will make less API calls
+
+**Future Enhancements**
+* Adding functionality to line chart, heat map pages
+* Better styling 
+* Mobile responsiveness
+
+
+

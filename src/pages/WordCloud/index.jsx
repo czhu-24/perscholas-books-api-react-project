@@ -6,11 +6,6 @@ import DatePicker from '../../components/DatePicker'
 
 const WordCloud = () => {
 
-	// TODO: add Datepicker
-	// remove any characters that are not alphabetical characters
-	// toggle between all words for that list for that week & the top... 50?
-	// on hover, show the count for that word
-
 	const [isLoading, setIsLoading] = useState(true);
 	const [dataArray, setDataArray] = useState([]);
 
@@ -23,14 +18,6 @@ const WordCloud = () => {
 	let dataObject = {};
 
 	const fillerWords = ["the", "and", "of", "a", "to", "in", "on", "an", "with", "i", "you", "me", "us"];
-
-	const data = [
-		{ text: 'Hey', value: 1000 },
-		{ text: 'lol', value: 200 },
-		{ text: 'first impression', value: 800 },
-		{ text: 'very cool', value: 1000000 },
-		{ text: 'duck', value: 10 },
-	];
 
 	useEffect(() => {
 		currentLists.forEach((list) =>
@@ -47,7 +34,6 @@ const WordCloud = () => {
 			})
 		);
 
-		//console.log(JSON.stringify(dataObject));
 		let tempArray = [];
 
 		console.log(dataObject);
@@ -66,16 +52,13 @@ const WordCloud = () => {
 
 		tempArray.sort((a, b) => b.value - a.value);
 		console.log({ tempArray });
-		tempArray = tempArray.slice(0, 5);
+		tempArray = tempArray.slice(0, 50);
 
 		setDataArray(tempArray);
 
 		setIsLoading(false);
 	}, [date, currentLists])
 
-
-
-	console.log("FINAL DATA ARRAY", dataArray);
 	return (
 		<>
 			<h1>WordCloud for Titles for All Lists for {`${generateMonthName(date.month)}, ${date.date}, ${date.year}`}</h1>

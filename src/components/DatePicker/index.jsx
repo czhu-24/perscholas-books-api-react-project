@@ -16,6 +16,7 @@ const DatePicker = ({ requestCounter }) => {
 	const [displayedDate, setDisplayedDate] = useState(generateFormattedDateFromObject(date));
 
 	const formattedDate = generateFormattedDateFromObject(date);
+	
 	const fetchNYTimesData = () => {
 		const nyKey = "gNiB3j1UoXh6bjDSRLuVQhAWbytpAwbu";
 
@@ -33,12 +34,6 @@ const DatePicker = ({ requestCounter }) => {
 	}
 
 	useEffect(() => {
-		// Start the throttled API call when the component mounts
-		//const intervalId = throttledFetchNYTimesData2();
-
-		// Clear the interval when the component unmounts or when the date changes
-		//return () => clearInterval(intervalId);
-
 		fetchNYTimesData();
 	}, [date]);
 
@@ -47,7 +42,6 @@ const DatePicker = ({ requestCounter }) => {
 		if (requestCounter > 5) {
 			return;
 		}
-		// Update the local state
 		setDisplayedDate(e.target.value);
 
 		// Dispatch the action to update the Redux store
@@ -60,7 +54,6 @@ const DatePicker = ({ requestCounter }) => {
 		if (requestCounter > 5) {
 			return;
 		}
-		// bool is true if you're going forward a week
 		console.log(displayedDate, isForward);
 		const newDate = generateFormattedDateWeekAway(displayedDate, isForward);
 
